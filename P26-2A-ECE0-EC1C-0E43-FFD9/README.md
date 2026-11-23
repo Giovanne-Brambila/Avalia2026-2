@@ -4,7 +4,7 @@
 - **Estudante:** Giovanne Antônio brambila
 - **Turma:** 2A
 - **Chave Única:** `P26-2A-ECE0-EC1C-0E43-FFD9`
-- **URL_CLOUDFLARE:** `https://p26-2a-ece0-ec1c-0e43-ffd9.pages.dev` *(Atualize com a URL pública real do seu deploy na Cloudflare antes de abrir o Pull Request)*
+- **URL_CLOUDFLARE:** `https://avalia2026-2-acs.pages.dev` *(Atualize com a URL pública real do seu deploy na Cloudflare antes de abrir o Pull Request)*
 
 ---
 
@@ -32,3 +32,19 @@ As postagens são salvas no Cloudflare D1 contendo o identificador e o nome púb
    ```
 4. Atualize o campo **URL_CLOUDFLARE** no topo deste `README.md` com o endereço público gerado pela Cloudflare.
 5. Na raiz do repositório, execute `node validar-local.mjs P26-2A-ECE0-EC1C-0E43-FFD9` para validar todos os critérios antes de fazer o commit e abrir o Pull Request.
+
+6. ## O que foi implementado
+
+- Login obrigatório via Discord OAuth2 (importa `user_id`, nome e avatar), com sessão em cookie assinado (HMAC-SHA256).
+- Disciplinas com inscrição individual e feed personalizado só com as disciplinas inscritas.
+- Publicação de avisos, lembretes de entrega e links úteis, gravados no Cloudflare D1 com o `user_id` e o nome do autor vindos do login.
+- Edição e exclusão permitidas só ao autor, validadas nas Pages Functions.
+- Marcação de "lido" e "fixado" por usuário, na visão individual de cada um.
+
+## Tecnologias
+
+HTML5, CSS3 e JavaScript puro no cliente; Cloudflare Pages Functions e Cloudflare D1 no servidor; hospedagem no Cloudflare Pages.
+
+## Agentes e skills
+
+Veja [`AGENTS.md`](./AGENTS.md) e a pasta [`skills/`](./skills).
