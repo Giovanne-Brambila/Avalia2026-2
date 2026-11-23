@@ -6,7 +6,7 @@
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "db-p26-2a-ece0-ec1c-0e43-ffd9",
+      "database_name": "mural-avisos-db",
       "database_id": "c13c3e4d-a279-4493-8394-afb9c0090a4f"
     }
   ]
