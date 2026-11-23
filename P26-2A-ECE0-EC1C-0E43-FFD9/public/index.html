@@ -1,48 +1,86 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Projeto #18 — P26-2A-ECE0-EC1C-0E43-FFD9</title>
-  <link rel="stylesheet" href="/styles.css">
+  <title>Projeto #18 — Mural de Avisos por Disciplina</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header class="topbar">
-    <div class="topbar-inner">
-      <div>
-        <strong>Projeto #18: Mural de Avisos Departamental por Disciplina</strong>
-      </div>
-      <div class="discord-badge" id="discordProfile">
-        <span id="discordUserText">Discord OAuth2 · Conectado</span>
-      </div>
-    </div>
+    <h1>Mural de Avisos por Disciplina</h1>
+    <div id="auth"></div>
   </header>
 
   <main>
-    <section class="card">
-      <span class="pill">Projeto Oficial #18</span>
-      <h1>Mural de Avisos Departamental por Disciplina</h1>
-      <p class="desc">Crie um quadro de comunicados digitais segmentado por canais ou códigos de disciplinas. Qualquer estudante autenticado via Discord pode se inscrever nas disciplinas de seu interesse para compor um feed personalizado em HTML/CSS, além de publicar avisos, lembretes de entregas de trabalhos ou links úteis. As postagens são salvas no Cloudflare D1 contendo o identificador e o nome público do autor extraídos do token OAuth2, garantindo rastreabilidade e coibindo postagens anônimas indevidas. O sistema deve permitir que o próprio autor edite ou remova seus avisos e que outros usuários marquem comunicados importantes como "lidos" ou "fixados" em sua visão individual.</p>
-
-      <div class="form-row">
-        <input class="input-text" id="recordInput" type="text" placeholder="Digite um registro para gravar na Cloudflare Function + D1...">
-        <button class="btn-primary" id="sendBtn" type="button">Registrar no Cloudflare D1</button>
-      </div>
-      <div id="statusMessage" style="font-size:0.88rem;font-weight:700;color:#166534;margin-bottom:0.75rem;"></div>
+    <section id="loginBox" class="panel" hidden>
+      <h2>Entre para ver o mural</h2>
+      <p>Faça login com o Discord para se inscrever nas disciplinas, ler o seu feed e publicar comunicados.</p>
+      <a class="btn primary" href="/api/auth/discord">Entrar com Discord</a>
     </section>
 
-    <section class="card">
-      <h2 style="font-size:1.15rem;font-weight:800;margin-bottom:0.85rem;">Registros Persistidos (Cloudflare Pages Functions + D1)</h2>
-      <ul class="records-list" id="recordsList">
-        <li>Carregando status da API serverless...</li>
-      </ul>
-    </section>
+    <div id="app" hidden>
+      <section class="panel">
+        <h2>Disciplinas</h2>
+        <p class="hint">Inscreva-se nas disciplinas que quer acompanhar. O seu feed mostra só os avisos delas.</p>
+        <div id="disciplinas" class="chips"></div>
+        <form id="novaDisc" class="row">
+          <input name="codigo" placeholder="Código (ex.: ES101)" maxlength="12" required>
+          <input name="nome" placeholder="Nome da disciplina" maxlength="80" required>
+          <button class="btn" type="submit">Criar disciplina</button>
+        </form>
+      </section>
+
+      <section class="panel">
+        <h2>Publicar comunicado</h2>
+        <form id="novoAviso" class="stack">
+          <div class="row">
+            <select name="disciplina_id" id="selDisc" required></select>
+            <select name="tipo" id="selTipo">
+              <option value="aviso">Aviso</option>
+              <option value="lembrete">Lembrete de entrega</option>
+              <option value="link">Link útil</option>
+            </select>
+          </div>
+          <input name="titulo" placeholder="Título" maxlength="120" required>
+          <textarea name="conteudo" placeholder="Texto do comunicado" rows="3" maxlength="1000" required></textarea>
+          <input name="url" id="inpUrl" type="url" placeholder="https://..." hidden>
+          <div class="row"><button class="btn primary" type="submit">Publicar</button><span id="msg" role="status"></span></div>
+        </form>
+      </section>
+
+      <section class="panel">
+        <div class="feedhead">
+          <h2>Meu feed</h2>
+          <select id="filtro" aria-label="Filtrar por disciplina"></select>
+        </div>
+        <div id="feed"></div>
+      </section>
+    </div>
   </main>
 
-  <footer id="projectFooter">
+  <footer>
     Chave Única de Auditoria: <code>P26-2A-ECE0-EC1C-0E43-FFD9</code> · Turma 2A · Licenciado sob MIT
   </footer>
 
-  <script src="/app.js"></script>
+  <dialog id="editDlg">
+    <form id="editForm" class="stack" method="dialog">
+      <h2>Editar comunicado</h2>
+      <select name="tipo" id="edTipo">
+        <option value="aviso">Aviso</option>
+        <option value="lembrete">Lembrete de entrega</option>
+        <option value="link">Link útil</option>
+      </select>
+      <input name="titulo" maxlength="120" required>
+      <textarea name="conteudo" rows="4" maxlength="1000" required></textarea>
+      <input name="url" type="url" placeholder="https://...">
+      <div class="row">
+        <button class="btn primary" type="submit">Salvar alterações</button>
+        <button class="btn" type="button" id="edCancel">Cancelar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
 </body>
 </html>
