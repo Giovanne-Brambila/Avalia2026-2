@@ -3,6 +3,9 @@
   "name": "projeto-p26-2a-ece0-ec1c-0e43-ffd9",
   "compatibility_date": "2026-03-01",
   "pages_build_output_dir": "./public",
+  "vars": {
+    "DISCORD_CLIENT_ID": "1573471492283433142"
+  },
   "d1_databases": [
     {
       "binding": "DB",
